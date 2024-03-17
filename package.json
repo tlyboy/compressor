@@ -17,6 +17,7 @@
     "compressorjs": "^1.2.1",
     "element-plus": "^2.6.1",
     "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
