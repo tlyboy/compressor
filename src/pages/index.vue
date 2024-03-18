@@ -71,10 +71,11 @@ async function compressFile(file: UploadUserFile, zip: JSZip) {
       multiple
       :auto-upload="false"
       list-type="picture"
+      accept="image/*"
     >
       <div class="el-icon--upload i-carbon-cloud-upload"></div>
 
-      <div class="el-upload__text">将文件拖放到此处或<em>单击上传</em></div>
+      <div class="el-upload__text">将图片拖放到此处或<em>单击上传</em></div>
     </el-upload>
 
     <div>
