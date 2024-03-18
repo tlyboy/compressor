@@ -44,11 +44,11 @@ async function compressFile(file: UploadUserFile, zip: JSZip) {
   <div class="flex flex-col gap-4">
     <p>🛠️ Compressor</p>
 
-    <ElUpload v-model:file-list="fileList" drag multiple :auto-upload="false">
+    <el-upload v-model:file-list="fileList" drag multiple :auto-upload="false">
       <div class="el-icon--upload i-carbon-cloud-upload"></div>
 
       <div class="el-upload__text">将文件拖放到此处或<em>单击上传</em></div>
-    </ElUpload>
+    </el-upload>
 
     <div>
       <el-button type="primary" @click="compress">
