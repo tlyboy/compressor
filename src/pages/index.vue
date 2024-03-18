@@ -13,6 +13,27 @@ definePage({
 const fileList = ref<UploadUserFile[]>([])
 
 async function compress() {
+  if (fileList.value.length === 0) {
+    return
+  }
+
+  if (fileList.value.length === 1) {
+    const file = fileList.value[0]
+    const result = await new Promise<Blob>((resolve, reject) => {
+      new Compressor(file.raw!, {
+        quality: 0.6,
+        success(result) {
+          resolve(result)
+        },
+        error(err) {
+          reject(err.message)
+        },
+      })
+    })
+    saveAs(result, file.name)
+    return
+  }
+
   try {
     const zip = new JSZip()
     const compressions = fileList.value.map((file) => compressFile(file, zip))
