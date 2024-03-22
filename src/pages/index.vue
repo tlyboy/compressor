@@ -10,6 +10,8 @@ definePage({
   },
 })
 
+const compressor = useCompressorStore()
+
 const fileList = ref<UploadUserFile[]>([])
 
 async function compress() {
@@ -21,7 +23,7 @@ async function compress() {
     const file = fileList.value[0]
     const result = await new Promise<Blob>((resolve, reject) => {
       new Compressor(file.raw!, {
-        quality: 0.6,
+        ...compressor.options,
         success(result) {
           resolve(result)
         },
@@ -48,7 +50,7 @@ async function compress() {
 async function compressFile(file: UploadUserFile, zip: JSZip) {
   return new Promise<void>((resolve, reject) => {
     new Compressor(file.raw!, {
-      quality: 0.6,
+      ...compressor.options,
       success(result) {
         zip.file(file.name, result)
         resolve()
@@ -62,28 +64,114 @@ async function compressFile(file: UploadUserFile, zip: JSZip) {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
-    <p>🛠️ Compressor</p>
+  <div class="flex h-full flex-col gap-4">
+    <p class="text-center">🛠️ Compressor</p>
 
-    <el-upload
-      v-model:file-list="fileList"
-      drag
-      multiple
-      :auto-upload="false"
-      list-type="picture"
-      accept="image/*"
+    <el-form
+      :inline="true"
+      :model="compressor.options"
+      class="demo-form-inline"
+      label-width="auto"
     >
-      <div class="el-icon--upload i-carbon-cloud-upload"></div>
-
-      <div class="el-upload__text">将图片拖放到此处或<em>单击上传</em></div>
-    </el-upload>
+      <el-form-item label="质量">
+        <el-input-number
+          v-model="compressor.options.quality"
+          :min="0.1"
+          :max="1"
+          :step="0.1"
+          style="width: 200px"
+        />
+      </el-form-item>
+      <el-form-item label="最大宽度">
+        <el-input-number
+          v-model="compressor.options.maxWidth"
+          :min="0"
+          style="width: 200px"
+        />
+      </el-form-item>
+      <el-form-item label="最大高度">
+        <el-input-number
+          v-model="compressor.options.maxHeight"
+          :min="0"
+          style="width: 200px"
+        />
+      </el-form-item>
+      <el-form-item label="最小宽度">
+        <el-input-number
+          v-model="compressor.options.minWidth"
+          :min="0"
+          style="width: 200px"
+        />
+      </el-form-item>
+      <el-form-item label="最小高度">
+        <el-input-number
+          v-model="compressor.options.minHeight"
+          :min="0"
+          style="width: 200px"
+        />
+      </el-form-item>
+      <el-form-item label="宽度">
+        <el-input-number
+          v-model="compressor.options.width"
+          :min="0"
+          style="width: 200px"
+        />
+      </el-form-item>
+      <el-form-item label="高度">
+        <el-input-number
+          v-model="compressor.options.height"
+          :min="0"
+          style="width: 200px"
+        />
+      </el-form-item>
+      <el-form-item label="调整大小">
+        <el-select
+          v-model="compressor.options.resize"
+          placeholder="请选择"
+          style="width: 200px"
+        >
+          <el-option label="none" value="none" />
+          <el-option label="contain" value="contain" />
+          <el-option label="cover" value="cover" />
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="compressor.reset">
+          <template #icon>
+            <div class="i-carbon-reset" />
+          </template>
+          重置
+        </el-button>
+      </el-form-item>
+    </el-form>
 
     <div>
+      <el-upload
+        v-model:file-list="fileList"
+        drag
+        multiple
+        :auto-upload="false"
+        list-type="picture"
+        accept="image/*"
+      >
+        <div class="el-icon--upload i-carbon-cloud-upload"></div>
+
+        <div class="el-upload__text">将图片拖放到此处或<em>单击上传</em></div>
+      </el-upload>
+    </div>
+
+    <div class="text-center">
       <el-button type="primary" @click="compress">
         <template #icon>
           <div class="i-carbon-download" />
         </template>
         下载
+      </el-button>
+      <el-button @click="fileList.splice(0)">
+        <template #icon>
+          <div class="i-carbon-reset" />
+        </template>
+        重置
       </el-button>
     </div>
   </div>
