@@ -156,16 +156,18 @@ async function compressFile(file: UploadUserFile, zip: JSZip) {
       >
         <div class="el-icon--upload i-carbon-cloud-upload"></div>
 
-        <div class="el-upload__text">将图片拖放到此处或<em>单击上传</em></div>
+        <div class="el-upload__text">将图片拖放到此处或<em>单击选择</em></div>
       </el-upload>
     </div>
 
     <div class="text-center">
       <el-button type="primary" @click="compress">
         <template #icon>
-          <div class="i-carbon-download" />
+          <div
+            class="i-carbon-ibm-openshift-container-platform-on-vpc-for-regulated-industries"
+          />
         </template>
-        下载
+        压缩
       </el-button>
       <el-button @click="fileList.splice(0)">
         <template #icon>
