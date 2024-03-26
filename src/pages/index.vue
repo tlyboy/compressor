@@ -65,7 +65,7 @@ async function compressFile(file: UploadUserFile, zip: JSZip) {
 
 <template>
   <div class="flex h-full flex-col gap-4">
-    <p class="text-center">🛠️ Compressor</p>
+    <p class="text-center">🛠️ 图像压缩器</p>
 
     <el-form
       :inline="true"
