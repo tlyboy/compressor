@@ -67,86 +67,86 @@ async function compressFile(file: UploadUserFile, zip: JSZip) {
   <div class="flex h-full flex-col gap-4">
     <p class="text-center">🛠️ 图像压缩器</p>
 
-    <el-form
+    <ElForm
       :inline="true"
       :model="compressor.options"
       class="demo-form-inline"
       label-width="auto"
     >
-      <el-form-item label="质量">
-        <el-input-number
+      <ElFormItem label="质量">
+        <ElInputNumber
           v-model="compressor.options.quality"
           :min="0.1"
           :max="1"
           :step="0.1"
           style="width: 200px"
         />
-      </el-form-item>
-      <el-form-item label="最大宽度">
-        <el-input-number
+      </ElFormItem>
+      <ElFormItem label="最大宽度">
+        <ElInputNumber
           v-model="compressor.options.maxWidth"
           :min="0"
           style="width: 200px"
         />
-      </el-form-item>
-      <el-form-item label="最大高度">
-        <el-input-number
+      </ElFormItem>
+      <ElFormItem label="最大高度">
+        <ElInputNumber
           v-model="compressor.options.maxHeight"
           :min="0"
           style="width: 200px"
         />
-      </el-form-item>
-      <el-form-item label="最小宽度">
-        <el-input-number
+      </ElFormItem>
+      <ElFormItem label="最小宽度">
+        <ElInputNumber
           v-model="compressor.options.minWidth"
           :min="0"
           style="width: 200px"
         />
-      </el-form-item>
-      <el-form-item label="最小高度">
-        <el-input-number
+      </ElFormItem>
+      <ElFormItem label="最小高度">
+        <ElInputNumber
           v-model="compressor.options.minHeight"
           :min="0"
           style="width: 200px"
         />
-      </el-form-item>
-      <el-form-item label="宽度">
-        <el-input-number
+      </ElFormItem>
+      <ElFormItem label="宽度">
+        <ElInputNumber
           v-model="compressor.options.width"
           :min="0"
           style="width: 200px"
         />
-      </el-form-item>
-      <el-form-item label="高度">
-        <el-input-number
+      </ElFormItem>
+      <ElFormItem label="高度">
+        <ElInputNumber
           v-model="compressor.options.height"
           :min="0"
           style="width: 200px"
         />
-      </el-form-item>
-      <el-form-item label="调整大小">
-        <el-select
+      </ElFormItem>
+      <ElFormItem label="调整大小">
+        <ElSelect
           v-model="compressor.options.resize"
           placeholder="请选择"
           style="width: 200px"
         >
-          <el-option label="none" value="none" />
-          <el-option label="contain" value="contain" />
-          <el-option label="cover" value="cover" />
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button @click="compressor.reset">
+          <ElOption label="none" value="none" />
+          <ElOption label="contain" value="contain" />
+          <ElOption label="cover" value="cover" />
+        </ElSelect>
+      </ElFormItem>
+      <ElFormItem>
+        <ElButton @click="compressor.reset">
           <template #icon>
-            <div class="i-carbon-reset" />
+            <div class="i-carbon-reset"></div>
           </template>
           重置
-        </el-button>
-      </el-form-item>
-    </el-form>
+        </ElButton>
+      </ElFormItem>
+    </ElForm>
 
     <div>
-      <el-upload
+      <ElUpload
         v-model:file-list="fileList"
         drag
         multiple
@@ -157,24 +157,24 @@ async function compressFile(file: UploadUserFile, zip: JSZip) {
         <div class="el-icon--upload i-carbon-cloud-upload"></div>
 
         <div class="el-upload__text">将图片拖放到此处或<em>单击选择</em></div>
-      </el-upload>
+      </ElUpload>
     </div>
 
     <div class="text-center">
-      <el-button type="primary" @click="compress">
+      <ElButton type="primary" @click="compress">
         <template #icon>
           <div
             class="i-carbon-ibm-openshift-container-platform-on-vpc-for-regulated-industries"
-          />
+          ></div>
         </template>
         压缩
-      </el-button>
-      <el-button @click="fileList.splice(0)">
+      </ElButton>
+      <ElButton @click="fileList.splice(0)">
         <template #icon>
-          <div class="i-carbon-reset" />
+          <div class="i-carbon-reset"></div>
         </template>
         重置
-      </el-button>
+      </ElButton>
     </div>
   </div>
 </template>
