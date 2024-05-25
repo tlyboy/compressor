@@ -14,6 +14,11 @@ const compressor = useCompressorStore()
 
 const fileList = ref<UploadUserFile[]>([])
 
+function reset() {
+  compressor.reset()
+  fileList.value.splice(0)
+}
+
 async function compress() {
   if (fileList.value.length === 0) {
     return
@@ -64,117 +69,137 @@ async function compressFile(file: UploadUserFile, zip: JSZip) {
 </script>
 
 <template>
-  <div class="flex h-full flex-col gap-4">
-    <p class="text-center">🛠️ 图像压缩器</p>
+  <ElContainer
+    class="layout-container h-full text-gray-700 dark:text-gray-200"
+    style="height: 100%"
+  >
+    <ElHeader class="flex items-center justify-between">
+      <div class="w-[calc(100%-76px)]">
+        <div class="truncate">🛠️ 图像压缩器</div>
+      </div>
 
-    <ElForm
-      :inline="true"
-      :model="compressor.options"
-      class="demo-form-inline"
-      label-width="auto"
-    >
-      <ElFormItem label="质量">
-        <ElInputNumber
-          v-model="compressor.options.quality"
-          :min="0.1"
-          :max="1"
-          :step="0.1"
-          style="width: 200px"
-        />
-      </ElFormItem>
-      <ElFormItem label="最大宽度">
-        <ElInputNumber
-          v-model="compressor.options.maxWidth"
-          :min="0"
-          style="width: 200px"
-        />
-      </ElFormItem>
-      <ElFormItem label="最大高度">
-        <ElInputNumber
-          v-model="compressor.options.maxHeight"
-          :min="0"
-          style="width: 200px"
-        />
-      </ElFormItem>
-      <ElFormItem label="最小宽度">
-        <ElInputNumber
-          v-model="compressor.options.minWidth"
-          :min="0"
-          style="width: 200px"
-        />
-      </ElFormItem>
-      <ElFormItem label="最小高度">
-        <ElInputNumber
-          v-model="compressor.options.minHeight"
-          :min="0"
-          style="width: 200px"
-        />
-      </ElFormItem>
-      <ElFormItem label="宽度">
-        <ElInputNumber
-          v-model="compressor.options.width"
-          :min="0"
-          style="width: 200px"
-        />
-      </ElFormItem>
-      <ElFormItem label="高度">
-        <ElInputNumber
-          v-model="compressor.options.height"
-          :min="0"
-          style="width: 200px"
-        />
-      </ElFormItem>
-      <ElFormItem label="调整大小">
-        <ElSelect
-          v-model="compressor.options.resize"
-          placeholder="请选择"
-          style="width: 200px"
-        >
-          <ElOption label="none" value="none" />
-          <ElOption label="contain" value="contain" />
-          <ElOption label="cover" value="cover" />
-        </ElSelect>
-      </ElFormItem>
-      <ElFormItem>
-        <ElButton @click="compressor.reset">
-          <template #icon>
-            <div class="i-carbon-reset"></div>
-          </template>
-          重置
-        </ElButton>
-      </ElFormItem>
-    </ElForm>
+      <NavBar />
+    </ElHeader>
 
-    <div>
-      <ElUpload
-        v-model:file-list="fileList"
-        drag
-        multiple
-        :auto-upload="false"
-        list-type="picture"
-        accept="image/*"
-      >
-        <div class="el-icon--upload i-carbon-cloud-upload"></div>
+    <ElMain>
+      <ElScrollbar>
+        <div class="app-container">
+          <ElForm :model="compressor.options" :inline="true" label-width="auto">
+            <ElFormItem label="质量">
+              <ElInputNumber
+                v-model="compressor.options.quality"
+                :min="0.1"
+                :max="1"
+                :step="0.1"
+                style="width: 200px"
+              />
+            </ElFormItem>
+            <ElFormItem label="最大宽度">
+              <ElInputNumber
+                v-model="compressor.options.maxWidth"
+                :min="0"
+                style="width: 200px"
+              />
+            </ElFormItem>
+            <ElFormItem label="最大高度">
+              <ElInputNumber
+                v-model="compressor.options.maxHeight"
+                :min="0"
+                style="width: 200px"
+              />
+            </ElFormItem>
+            <ElFormItem label="最小宽度">
+              <ElInputNumber
+                v-model="compressor.options.minWidth"
+                :min="0"
+                style="width: 200px"
+              />
+            </ElFormItem>
+            <ElFormItem label="最小高度">
+              <ElInputNumber
+                v-model="compressor.options.minHeight"
+                :min="0"
+                style="width: 200px"
+              />
+            </ElFormItem>
+            <ElFormItem label="宽度">
+              <ElInputNumber
+                v-model="compressor.options.width"
+                :min="0"
+                style="width: 200px"
+              />
+            </ElFormItem>
+            <ElFormItem label="高度">
+              <ElInputNumber
+                v-model="compressor.options.height"
+                :min="0"
+                style="width: 200px"
+              />
+            </ElFormItem>
+            <ElFormItem label="调整大小">
+              <ElSelect
+                v-model="compressor.options.resize"
+                placeholder="请选择"
+                style="width: 200px"
+              >
+                <ElOption label="none" value="none" />
+                <ElOption label="contain" value="contain" />
+                <ElOption label="cover" value="cover" />
+              </ElSelect>
+            </ElFormItem>
+            <ElFormItem>
+              <ElButton @click="reset">
+                <template #icon>
+                  <div class="i-carbon-reset"></div>
+                </template>
+                重置
+              </ElButton>
+            </ElFormItem>
+          </ElForm>
 
-        <div class="el-upload__text">将图片拖放到此处或<em>单击选择</em></div>
-      </ElUpload>
-    </div>
+          <ElRow :gutter="10" class="mb8">
+            <ElCol :span="1.5">
+              <ElButton type="primary" @click="compress">
+                <template #icon>
+                  <div
+                    class="i-carbon-ibm-openshift-container-platform-on-vpc-for-regulated-industries"
+                  ></div>
+                </template>
+                压缩
+              </ElButton>
+            </ElCol>
+          </ElRow>
 
-    <div class="text-center">
-      <ElButton type="primary" @click="compress">
-        <template #icon>
-          <div
-            class="i-carbon-ibm-openshift-container-platform-on-vpc-for-regulated-industries"
-          ></div>
-        </template>
-        压缩
-      </ElButton>
-      <ElButton @click="fileList.splice(0)">
-        <template #icon>
-          <div class="i-carbon-reset"></div>
-        </template>
-        重置
-      </ElButton>
-    </div>
-  </div>
+          <div>
+            <ElUpload
+              v-model:file-list="fileList"
+              drag
+              multiple
+              :auto-upload="false"
+              list-type="picture"
+              accept="image/*"
+            >
+              <div class="el-icon--upload i-carbon-cloud-upload"></div>
+
+              <div class="el-upload__text">
+                将图片拖放到此处或<em>单击选择</em>
+              </div>
+            </ElUpload>
+          </div>
+        </div>
+      </ElScrollbar>
+    </ElMain>
+  </ElContainer>
 </template>
+
+<style>
+.layout-container .el-header {
+  position: relative;
+  color: var(--el-text-color-primary);
+  border-bottom: 1px solid var(--el-color-info-light-7);
+}
+
+.layout-container .el-main {
+  padding: 0;
+}
+</style>
